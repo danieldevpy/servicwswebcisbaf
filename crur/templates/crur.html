@@ -1,0 +1,30 @@
+{% extends 'static/crur/base.html' %}
+{% load static %}
+
+{% block head %}
+  <title>Boletim de Atendimento Samu</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <br>
+        <br>
+        <br>
+        
+        <div class="rowIndex">
+            <div class="rowIndexPrimary">
+              <h1 data-aos="fade-up">SOLICITAÇÃO DE CÓPIA DE BOLETIM DE ATENDIMENTO SAMU</h1>
+              <label data-aos="fade-up" data-aos-delay="400" style="color: #434343;text-align: justify;">O Consórcio Intermunicipal de Saúde da Baixada Fluminense é o órgão gestor da Central de Regulação de Urgências Regional Baixada Fluminense – CRUR BF, portanto, os chamados realizados pelo SAMU 192 e regulados pela CRUR BF nos municípios de Belford Roxo, Duque de Caxias, Itaguaí, Japeri, Magé, Mesquita, Nilópolis, Nova Iguaçu, Queimados, São João de Meriti e Seropédica são gerenciados pelo CISBAF.O boletim de atendimento é o documento que contém informações detalhadas sobre a assistência emergencial prestada ao paciente pelo SAMU. Na CRUR BF todas as informações registradas sobre a assistência prestada aos pacientes são confidenciais e protegidas, conforme a legislação vigente.</label>
+              <div data-aos="fade-up" data-aos-delay="600">
+                <a type="button" href="{% url 'term' %}" class="btn btn-primary">Abrir Requerimento</a>
+                <a type="button" href="{% url 'check' %}" class="btn btn-primary">Acompanhar Requerimento</a>
+              </div>
+            </div>
+            <div id="divImg" class="col-lg-5 hero-img" data-aos="zoom-out" data-aos-delay="200">
+              <img src="{% static 'crur/img/samu.png' %}" class="img-fluid" style="max-width: 70%;" alt="">
+            </div>
+          </div>
+      
+    </div>
+{% endblock %}

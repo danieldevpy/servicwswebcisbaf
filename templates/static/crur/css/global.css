@@ -1,0 +1,97 @@
+
+#divRepresentante{
+    border: 1px dotted grey;
+    padding: 5px;
+    border-radius: 4px;
+    display: none;
+    margin: 5px;
+
+}
+
+
+body {
+    background: url(../img/hero-bg.png) top center no-repeat;
+    background-size: cover;
+  }
+
+.card-response{
+    max-height: 60vh;
+    overflow: auto;
+}
+
+#headerPage{
+    justify-content: normal;
+}
+#headerPage img{
+    max-height: 40px;
+    margin-right: 6px;
+}
+
+#headerPage a{
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #012970;
+    font-family: "Nunito", sans-serif;
+    margin-top: 3px
+}
+
+
+.rowIndex{
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.rowIndex h1{
+    margin: 0;
+    font-size: 48px;
+    font-weight: 700;
+    color: #012970;
+}
+
+.rowIndexPrimary{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#formLoc > div{
+    gap: 10px;
+ }
+
+@media (max-width: 800px){
+
+ .rowIndexPrimary > div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+ }
+
+ #requester-part > button {
+    margin-bottom: 10px;
+ }
+
+ #formFinalidade > div {
+    margin: 10px;
+ }
+
+ #formDate > div{
+    display: flex;
+ }
+
+ #formDate > div > input {
+    flex:  auto;
+ }
+
+ #formLoc > div{
+    flex-direction: column;
+    gap: 0px;
+    margin-bottom: 10px;
+ }
+ #formLoc > div > input{
+    margin-bottom: 5px;
+ }
+
+}

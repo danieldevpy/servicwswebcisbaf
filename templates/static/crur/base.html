@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="pt-br">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'parciais/crur/_head.html' %}
+    {% block head %} {% endblock%}
+  </head>
+  <body>
+  
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container" id="headerPage">
+        <img src="{% static 'crur/img/CISBAF.png' %}" alt="">
+        <a href="{% url 'crur' %}" id="logoHeader">Cisbaf Boletim</a>
+      </div>
+      {% if is_auth %}
+        <div style="">
+          <label style="color:grey;">Logado como ({{is_auth}})</label>
+        <a href="{% url 'response' %}">Painel</a>
+        </div>
+      {% else %}
+        <a href="{% url 'crur_login' %}">Login</a>
+      {% endif %}
+    </nav>
+    <br>
+
+    
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert {{message.tags}}" role="alert">
+            {{message}} 
+        </div>
+      {% endfor %}
+    {% endif %}
+
+
+    {% block body %} {% endblock %}
+
+
+  </body>
+</html>
