@@ -164,8 +164,8 @@ def register(request):
                     pass
             register_instance.archives.set(images)
             settings = Setting.objects.first()
-            message_return = f"Solicitação realizada! para acompanhar a solicitação acesse o menu de acompanhamento e utilize o numero de celular do solicitante, com o final *********{identifier[-4:]}"
-            message_wpp = f"Uma nova solicitação de cópia de boletim de atendimento samu, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/response/{identifier}"
+            message_return = f"Solicitação realizada! para acompanhar a solicitação acesse o menu de acompanhamento e utilize o numero de celular do solicitante, com o final *********{identifier[-4:]}\n O prazo de resposta é de 7 dias!"
+            message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)*\n Nova solicitação no atendimento crur, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/response/{identifier}"
             threading.Thread(target=RequestWhatsapp.notification_wpp, args=(settings.number_contact, message_wpp)).start()
 
             return JsonResponse({"message": message_return, "identifier": identifier})
