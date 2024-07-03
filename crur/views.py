@@ -63,7 +63,7 @@ def crur_response(request, term=None):
                     if not registers:
                         registers = Register.objects.filter(status='deferido')
                 case 2:
-                    registers = Register.objects.filter(status="defirido", auth=False)
+                    registers = Register.objects.filter(status="deferido", auth=False)
                     if registers:
                         term = 'notauth'
                     else:
