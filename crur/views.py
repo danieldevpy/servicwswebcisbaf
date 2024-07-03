@@ -79,7 +79,6 @@ def crur_response(request, term=None):
                 case 'all':
                     registers = Register.objects.all()
                 case _:
-                    print('x?')
                     registers = Register.objects.filter(identifier=term)
                     if not registers:
                         registers = Register.objects.filter(status=term)
