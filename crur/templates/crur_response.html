@@ -158,44 +158,48 @@
                 {% endif %}
             </div>
             {% if user.field_extra != '3' %}
-            <div style="margin: 5px;">
+     
+            <div style="margin-left: 10px;">
+                <h5 >Filtros</h5>
+                <hr>
                 <div class="form-check">
                     <a href="/crur/response/analise">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" {% if term == 'analise' %} checked {% endif %}>
-                        <label class="form-check-label">Aguardando Analise</label>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="analise" {% if term == 'analise' %} checked {% endif %} onclick="location.href='/crur/response/analise'">
+                        <label class="form-check-label" for="analise">Aguardando Analise</label>
                     </a>
                 </div>
                 <div class="form-check">
                     <a href="/crur/response/notauth">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" {% if term == 'notauth' %} checked {% endif %}>
-                        <label class="form-check-label">Aguardando Autorização</label>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="notauth" {% if term == 'notauth' %} checked {% endif %} onclick="location.href='/crur/response/notauth'">
+                        <label class="form-check-label" for="notauth">Aguardando Autorização</label>
                     </a>
                 </div>
                 <div class="form-check">
                     <a href="/crur/response/all">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" {% if term == 'all' %} checked {% endif %}>
-                        <label class="form-check-label">Todos</label>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="all" {% if term == 'all' %} checked {% endif %} onclick="location.href='/crur/response/all'">
+                        <label class="form-check-label" for="all">Todos</label>
                     </a>
                 </div>
                 <div class="form-check">
                     <a href="/crur/response/auth">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" {% if term == 'auth' %} checked {% endif %}>
-                        <label class="form-check-label">Autorizados</label>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="auth" {% if term == 'auth' %} checked {% endif %} onclick="location.href='/crur/response/auth'">
+                        <label class="form-check-label" for="auth">Autorizados</label>
                     </a>
                 </div>
                 <div class="form-check">
                     <a href="/crur/response/deferido">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" {% if term == 'deferido' %} checked {% endif %}>
-                        <label class="form-check-label">Deferidos</label>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="deferido" {% if term == 'deferido' %} checked {% endif %} onclick="location.href='/crur/response/deferido'">
+                        <label class="form-check-label" for="deferido">Deferidos</label>
                     </a>
                 </div>
                 <div class="form-check">
                     <a href="/crur/response/indeferido">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" {% if term == 'indeferido' %} checked {% endif %}>
-                        <label class="form-check-label">Indeferido</label>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="indeferido" {% if term == 'indeferido' %} checked {% endif %} onclick="location.href='/crur/response/indeferido'">
+                        <label class="form-check-label" for="indeferido">Indeferido</label>
                     </a>
                 </div>
             </div>
+            
             {% endif %}
         </div>
     </div>
