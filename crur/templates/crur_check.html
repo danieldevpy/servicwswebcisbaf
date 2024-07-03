@@ -35,7 +35,11 @@
                         </h5>
                         <div class="d-flex align-items-center">
                             {% if not register.auth %}
-                                <span class="badge badge-pill badge-warning ">ANALISE</span>
+                                {% if register.status == 'analise' %}
+                                    <span class="badge badge-pill badge-warning ">ANALISE</span>
+                                {% elif register.status == 'indeferido' %}
+                                    <span class="badge badge-pill badge-danger">INDEFIRIDO</span>
+                                {% endif %}
                             {% else %}
                                 {% if register.status == 'analise' %}
                                 <span class="badge badge-pill badge-warning ">ANALISE</span>
@@ -52,10 +56,20 @@
                 <div id="collapse{{register.pk}}" class="collapse show" aria-labelledby="heading{{register.pk}}" data-parent="#accordionExample">
                     <div class="card-body">
                         {% if not register.auth %}
-                            A sua solicitação ainda está em processo de análise e possui um prazo máximo de 7 dias. Se você não receber uma mensagem pelo WhatsApp, por favor, retorne a esta página para verificar o status.
+                            {% if register.status == 'analise' %}
+                                A sua solicitação ainda está em processo de análise e possui um prazo máximo de 7 dias. Se você não receber uma mensagem pelo WhatsApp, por favor, retorne a esta página para verificar o status.
+                            {% else %}
+                                {{ register.response }}
+                            {% endif %}
                         {% else %}
                             {% if register.status == 'analise' %}
                                 A sua solicitação ainda está em processo de análise e possui um prazo máximo de 7 dias. Se você não receber uma mensagem pelo WhatsApp, por favor, retorne a esta página para verificar o status.
+                            {% elif register.status == "deferido" %}
+                                Informamos que a sua cópia do boletim está disponível para retirada.
+                                <br>
+                                Por favor, compareça no endereço Av. Gov. Roberto Silveira, 2012 - Moquetá, Nova Iguaçu - RJ, 26020-740 (CISBAF)
+                                <br>
+                                <b>Necessário trazer um documento de identificação com foto</b>
                             {% else %}
                                 {{ register.response }}
                         {% endif %}

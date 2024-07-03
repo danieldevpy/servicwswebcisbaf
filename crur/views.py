@@ -9,7 +9,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
 def global_context(request, context):
-
     context['is_auth'] = request.user.username
     return context
 
@@ -46,57 +45,104 @@ def crur_response(request, term=None):
     if request.method == "GET":
         if not request.user.is_staff:
             return redirect('crur_login')
-        context = {'term': term}
+        
+        nivel_acess = None
+        try:
+            nivel_acess = int(request.user.field_extra)
+        except:
+            messages.error(request, 'Nivel de acesso não definido')
+            return redirect('crur')
+        
+        context = {'term': term, 'all': Register.objects.count()}
         registers = None
-        if term:
-            if term == "analise":
-                registers = Register.objects.filter(status="analise")
-            else:
-                registers = Register.objects.filter(identifier=term)
+
+        if not term:
+            match nivel_acess:
+                case 1:
+                    registers = Register.objects.filter(status='analise')
+                    if not registers:
+                        registers = Register.objects.filter(status='deferido')
+                case 2:
+                    registers = Register.objects.filter(status="defirido", auth=False)
+                    if registers:
+                        term = 'notauth'
+                    else:
+                        registers = Register.objects.filter(auth=True)
+                        if registers:
+                            term = 'auth'
         else:
+            match term:
+                case 'notauth':
+                    registers = Register.objects.filter(status="deferido", auth=False)
+                case 'auth':
+                    registers = Register.objects.filter(auth=True)
+                case 'all':
+                    registers = Register.objects.all()
+                case _:
+                    print('x?')
+                    registers = Register.objects.filter(identifier=term)
+                    if not registers:
+                        registers = Register.objects.filter(status=term)
+        
+
+        if not registers:
             registers = Register.objects.all()
-        context['registers'] = [GenerateHTML.generate(r, int(request.user.field_extra)) for r in registers]
+
+        try:
+            context['filter'] = int(term)
+        except:
+            pass
+
+        context['count'] = registers.count()
+        context['registers'] = [GenerateHTML.generate(r, nivel_acess) for r in registers]
         return render(request, 'crur_response.html', context=global_context(request, context))
+
+
     
     elif request.method == "POST":
         pk = request.POST.get('pk')
         response = request.POST.get('response')
         select = request.POST.get('select')
-        file = request.FILES.get('file')
         register = Register.objects.get(pk=pk)
         register.status = select
         register.response = response
-        if file:
-            exist_file = register.response_attachments.first()
-            if not exist_file:
-                f = Archive.objects.create(name=file, archive=file)
-                register.response_attachments.add(f)
-            else:
-                if exist_file.name != file.name:
-                    register.response_attachments.remove(exist_file)
-                    exist_file.delete()
-                    f = Archive.objects.create(name=file, archive=file)
-                    register.response_attachments.add(f)
         register.save()
-        
-        if register.auth:
-            message_wpp = f"A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
+
+        if not register.auth:
+            if select == "indefirido":
+                message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)*\n A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
+                threading.Thread(target=RequestWhatsapp.notification_wpp, args=(register.identifier, message_wpp)).start()
+        else:
+            message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)*\n A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
             threading.Thread(target=RequestWhatsapp.notification_wpp, args=(register.identifier, message_wpp)).start()
         
         return redirect('response')
     
 def authorizar(request, pk):
     register = Register.objects.get(pk=pk)
-
     register.auth = True
     register.save()
-    message_wpp = f"A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
+    message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)*\n A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
     threading.Thread(target=RequestWhatsapp.notification_wpp, args=(register.identifier, message_wpp)).start()
     url = RequestCommands.get_previous_url(request)
     if url:
         return redirect(url)
     
     return redirect('crur')
+
+@csrf_exempt
+def archives(request, pk):
+    if request.method == "POST":
+        desc = request.POST.get('desc')
+        file = request.FILES['file']
+        register = Register.objects.get(pk=pk)
+        register.response_attachments.add(Archive.objects.create(name=desc, archive=file))
+        return JsonResponse({"message": 'successs'}, status=200)
+    if request.method == "PUT":
+        Archive.objects.get(pk=pk).delete()
+        return JsonResponse({"message": 'successs'}, status=200)
+
+    return JsonResponse({"msg": "not foi possivel processar sua requisição"}, status=400)
 
 
 @csrf_exempt

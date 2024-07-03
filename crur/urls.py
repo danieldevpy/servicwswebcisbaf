@@ -13,6 +13,7 @@ urlpatterns = [
     path('response/<str:term>', views.crur_response, name='response'),
     path('authorize/<str:pk>', views.authorizar, name="authorize"),
     path('register', views.register, name='register'),
-    path('login', views.login_view, name="crur_login")
+    path('login', views.login_view, name="crur_login"),
+    path('archives/<int:pk>', views.archives, name="archives")
 
 ]
