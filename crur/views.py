@@ -155,7 +155,7 @@ def register(request):
             register_instance = Register(identifier=identifier, data_json=data_json_str)
             register_instance.save()
             images = []
-            for i in range(3):
+            for i in range(10):
                 try:
                     file = request.FILES[f'file{i}']
                     name = str(file.name).split('-DIV-')[0].replace('_', ' ')

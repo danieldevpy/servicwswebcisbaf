@@ -30,7 +30,7 @@ function addInput(input, div){
 
 function configDocs(){
     const divDocuments = document.getElementById("documentosDiv");
-
+    
     if(tipoSolicitante == "Paciente"){
         const label = document.createElement("h4");
         label.innerText = "Documento de identificação com foto, RG ou CNH."
@@ -129,6 +129,21 @@ function configDocs(){
         }
 
     }
+
+    if(tipoFinalidade == "Óbito"){
+        const lb1 = document.createElement("h4");
+        lb1.innerText = "Certidão de óbito";
+        const inputFile1 = document.createElement("input");
+        inputFile1.type = "file";
+        inputFile1.required = true;
+        inputFile1.setAttribute("data-name", "Certidão de óbito");
+        inputFile1.setAttribute("aria-label", "inputFile");
+        addInput(lb1, divDocuments);
+        addInput(inputFile1, divDocuments);
+
+
+    }
+
     var inputsFile = document.querySelectorAll(`[aria-label="inputFile"]`);
     inputsFile.forEach(element=>{
         element.style.marginBottom = "15px";
