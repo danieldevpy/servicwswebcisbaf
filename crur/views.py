@@ -83,7 +83,6 @@ def crur_response(request, term=None):
                     if not registers:
                         registers = Register.objects.filter(status=term)
         
-
         if not registers:
             registers = Register.objects.all()
 
@@ -109,10 +108,10 @@ def crur_response(request, term=None):
 
         if not register.auth:
             if select == "indefirido":
-                message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)*\n A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
+                message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)* - A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
                 threading.Thread(target=RequestWhatsapp.notification_wpp, args=(register.identifier, message_wpp)).start()
         else:
-            message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)*\n A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
+            message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)* - A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
             threading.Thread(target=RequestWhatsapp.notification_wpp, args=(register.identifier, message_wpp)).start()
         
         return redirect('response')
@@ -121,7 +120,7 @@ def authorizar(request, pk):
     register = Register.objects.get(pk=pk)
     register.auth = True
     register.save()
-    message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)*\n A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
+    message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)* - A resposta da solicitação de cópia do boletim de atendimento samu foi atualizado, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/check/{register.identifier}"
     threading.Thread(target=RequestWhatsapp.notification_wpp, args=(register.identifier, message_wpp)).start()
     url = RequestCommands.get_previous_url(request)
     if url:
@@ -165,7 +164,7 @@ def register(request):
             register_instance.archives.set(images)
             settings = Setting.objects.first()
             message_return = f"Solicitação realizada! para acompanhar a solicitação acesse o menu de acompanhamento e utilize o numero de celular do solicitante, com o final *********{identifier[-4:]}\n O prazo de resposta é de 7 dias!"
-            message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)*\n Nova solicitação no atendimento crur, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/response/{identifier}"
+            message_wpp = f"*MENSAGEM AUTOMATICA (NÃO RESPONDA)* - Nova solicitação no atendimento crur, para acompanhar acesse https://atendimentocrur.cisbaf.org.br/response/{identifier}"
             threading.Thread(target=RequestWhatsapp.notification_wpp, args=(settings.number_contact, message_wpp)).start()
 
             return JsonResponse({"message": message_return, "identifier": identifier})
