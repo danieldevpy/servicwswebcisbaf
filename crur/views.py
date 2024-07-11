@@ -70,6 +70,9 @@ def crur_response(request, term=None):
                         registers = Register.objects.filter(auth=True)
                         if registers:
                             term = 'auth'
+                case 3:
+                    registers = Register.objects.filter(auth=True)
+                    term = 'auth'
         else:
             match term:
                 case 'notauth':
