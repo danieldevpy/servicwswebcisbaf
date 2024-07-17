@@ -14,9 +14,13 @@ from pathlib import Path
 from django.contrib.messages import constants
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'ALLOW-FROM your-trusted-url'
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'crur',
+    'contracts',
 
 ]
 
