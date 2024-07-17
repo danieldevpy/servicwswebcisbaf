@@ -188,5 +188,5 @@ def get_extension(archive_name: str):
 
 def view_archive(request, pk: int):
     archive = get_object_or_404(Archive, id=pk)
-    get_extension(archive.archive)
+    archive.extension = get_extension(archive.archive)
     return render(request, 'crur_view.html', {'archive': archive})
