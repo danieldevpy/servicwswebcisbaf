@@ -176,3 +176,17 @@ def register(request):
  
     return JsonResponse({"erorr": "not foi possivel processar sua requisição"})
         
+
+# views.py
+
+from django.shortcuts import render, get_object_or_404
+
+def get_extension(archive_name: str):
+    extension = str(archive_name).split('.')[1]
+    return extension
+    
+
+def view_archive(request, pk: int):
+    archive = get_object_or_404(Archive, id=pk)
+    get_extension(archive.archive)
+    return render(request, 'crur_view.html', {'archive': archive})

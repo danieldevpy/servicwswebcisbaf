@@ -14,6 +14,7 @@ urlpatterns = [
     path('authorize/<str:pk>', views.authorizar, name="authorize"),
     path('register', views.register, name='register'),
     path('login', views.login_view, name="crur_login"),
-    path('archives/<int:pk>', views.archives, name="archives")
+    path('archives/<int:pk>', views.archives, name="archives"),
+    path('view_archive/<int:pk>', views.view_archive, name="view_archive")
 
 ]

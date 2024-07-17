@@ -12,6 +12,7 @@ class Setting(models.Model):
 class Archive(models.Model):
     name = models.CharField('Identificador do Arquivo', max_length=100, blank=True)
     archive = models.FileField(upload_to='crur/')
+    extension = None
     
     def __str__(self) -> str:
         return self.archive.name
